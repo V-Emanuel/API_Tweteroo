@@ -33,7 +33,7 @@ app.get('/tweets', (req, res) => {
     const newTweets = tweets.slice(0, max);
     res.send(newTweets)
   }else{
-    res.send(user)
+    res.send(tweets)
   }
 })
 
