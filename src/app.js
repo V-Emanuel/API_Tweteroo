@@ -8,10 +8,14 @@ app.use(express.json());
 app.listen(PORT);
 const user = [];
 const tweets = [];
+let avatarUser = {
+  avatar: "",
+};
 
 app.post('/sign-up', (req, res) => {
     const dataUser = req.body
     user.push(dataUser)
+    avatarUser.avatar = user.avatar;
     res.status(201).send("OK")
 })
 app.post('/tweets', (req, res) => {
@@ -20,11 +24,17 @@ app.post('/tweets', (req, res) => {
     if (!authorization) {
         res.send("UNAUTHORIZED")
     }
-    tweets.push(dataTweet)
+    tweets.push({ ...avatarUser, ...dataTweet});
     res.status(201).send("OK")
 })
 app.get('/tweets', (req, res) => {
-  res.send(user)
+  const max = 10;
+  if(tweets.length > max){
+    const newTweets = tweets.slice(0, max);
+    res.send(newTweets)
+  }else{
+    res.send(user)
+  }
 })
 
 
