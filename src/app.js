@@ -7,19 +7,24 @@ app.use(cors());
 app.use(express.json());
 app.listen(PORT);
 const user = [];
+const tweets = [];
 
 app.post('/sign-up', (req, res) => {
-
     const dataUser = req.body
     user.push(dataUser)
     res.status(201).send("OK")
-
 })
-
-app.get('/sign-up', (req, res) => {
-
-    res.send(user)
-
+app.post('/tweets', (req, res) => {
+    const dataTweet = req.body
+    const authorization = user.find(item => item === req.body.username)
+    if (!authorization) {
+        res.send("UNAUTHORIZED")
+    }
+    tweets.push(dataTweet)
+    res.status(201).send("OK")
+})
+app.get('/tweets', (req, res) => {
+  res.send(user)
 })
 
 
